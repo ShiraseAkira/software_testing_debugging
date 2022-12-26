@@ -1,12 +1,17 @@
 import sys
+import subprocess
 
 ARG_NUM_ERROR_MESSAGE = 'invalid argument count'
 USAGE_MESSAGE = 'test_program.exe [program_to_test.exe] [test_cases.txt] [output.txt]'
 ERROR_EXIT_CODE = 1
 FILE_READ_ERROR_MESSAGE = 'Could not open/read file:'
 FILE_WRITE_ERROR_MESSAGE = 'Could not write to file:'
-WHITESPACE_CHARS = ' \n'
+WHITESPACE_CHARS = ' \n\r'
 TEST_DATA_RESULT_DELIMETER = '->'
+
+ENCODING = 'windows-1251'
+TEST_SUCCESS_MESSAGE = 'SUCCESS'
+TEST_FAIL_MESSAGE = 'ERROR'
 
 def get_tests(test_file):
     tests = []
@@ -38,7 +43,13 @@ def run_tests(program_to_test, tests, output_file):
     for test in tests:
         args = test[0].split()
         expected_outcome = test[1]
-        print(args, expected_outcome, file=f)
+        result = subprocess.run([program_to_test, *args], capture_output=True)
+        result_message = result.stdout.decode(ENCODING).strip(WHITESPACE_CHARS)
+        if result_message == expected_outcome:
+            print(TEST_SUCCESS_MESSAGE, file=f)
+        else :
+            print(args, expected_outcome)
+            print(TEST_FAIL_MESSAGE, file=f)
 
     f.close()
 
