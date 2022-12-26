@@ -32,8 +32,8 @@ def get_triangle_type(sides_lengths):
     sides = get_triangle_sides(sides_lengths)
 
     if not is_sides_valid(sides):
-        print(ERROR_MESSAGE)
-        sys.exit(ERROR_EXIT_CODE)
+        print(NOT_TRIANGLE_MESSAGE)
+        sys.exit(OK_EXIT_CODE)
 
     if not is_triangle(sides):
         print(NOT_TRIANGLE_MESSAGE)
