@@ -2,6 +2,7 @@ import sys
 
 ERROR_MESSAGE = 'неизвестная ошибка'
 ERROR_EXIT_CODE = 1
+OK_EXIT_CODE = 0
 
 NOT_TRIANGLE_MESSAGE = 'не треугольник'
 
@@ -22,12 +23,21 @@ def is_sides_valid(sides):
             return False
     return True
 
+def is_triangle(sides):
+    return  sides[0] + sides[1] > sides[2] and \
+            sides[1] + sides[2] > sides[0] and \
+            sides[2] + sides[0] > sides[1] 
+
 def get_triangle_type(sides_lengths):
     sides = get_triangle_sides(sides_lengths)
 
     if not is_sides_valid(sides):
         print(ERROR_MESSAGE)
         sys.exit(ERROR_EXIT_CODE)
+
+    if not is_triangle(sides):
+        print(NOT_TRIANGLE_MESSAGE)
+        sys.exit(OK_EXIT_CODE)
 
     print(sides)
 
