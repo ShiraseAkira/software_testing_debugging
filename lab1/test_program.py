@@ -4,6 +4,7 @@ ARG_NUM_ERROR_MESSAGE = 'invalid argument count'
 USAGE_MESSAGE = 'test_program.exe [program_to_test.exe] [test_cases.txt] [output.txt]'
 ERROR_EXIT_CODE = 1
 FILE_READ_ERROR_MESSAGE = 'Could not open/read file:'
+FILE_WRITE_ERROR_MESSAGE = 'Could not write to file:'
 WHITESPACE_CHARS = ' \n'
 TEST_DATA_RESULT_DELIMETER = '->'
 
@@ -27,6 +28,20 @@ def get_tests(test_file):
     f.close()
     return tests
 
+def run_tests(program_to_test, tests, output_file):
+    try:
+        f = open(output_file, 'w', encoding='utf-8')
+    except OSError:
+        print(FILE_WRITE_ERROR_MESSAGE, output_file)
+        sys.exit(ERROR_EXIT_CODE)
+
+    for test in tests:
+        args = test[0].split()
+        expected_outcome = test[1]
+        print(args, expected_outcome, file=f)
+
+    f.close()
+
 def main(args):
     if len(args) != 3:
         print (ARG_NUM_ERROR_MESSAGE)
@@ -39,7 +54,7 @@ def main(args):
 
     tests = get_tests(test_file)
 
-    print(tests)
+    run_tests(program_to_test, tests, output_file)
 
 
 if __name__ == '__main__':
