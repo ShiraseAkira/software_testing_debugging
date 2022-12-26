@@ -26,11 +26,25 @@ def is_triangle_sides_valid(triangle_sides):
             return False
     return True
 
+def is_all_sides_signinicant(triangle_sides):
+    a, b, c = triangle_sides
+    if a + b == b and a != 0 \
+        or a + b == a and b != 0 \
+        or a + c == a and c != 0:
+            return False
+
+    return True
+
 def is_triangle(triangle_sides):
     a, b, c = triangle_sides
-    return  a + b > c and \
-            b + c > a and \
-            c + a > b 
+    if is_all_sides_signinicant(triangle_sides):
+        return  a + b > c and \
+                b + c > a and \
+                c + a > b 
+    else:
+        return  a + b >= c and \
+                b + c >= a and \
+                c + a >= b 
 
 def is_equilateral(triangle_sides):
     a, b, c = triangle_sides
