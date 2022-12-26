@@ -5,6 +5,7 @@ ERROR_EXIT_CODE = 1
 OK_EXIT_CODE = 0
 
 NOT_TRIANGLE_MESSAGE = 'не треугольник'
+EQUILATERAL_TRIANLGE_MESSAGE = 'равносторонний'
 
 def get_triangle_sides(sides_lengths):
     if len(sides_lengths) != 3:
@@ -28,6 +29,10 @@ def is_triangle(sides):
             sides[1] + sides[2] > sides[0] and \
             sides[2] + sides[0] > sides[1] 
 
+def is_equilateral(sides):
+    return sides[0] == sides[1] and sides[0] == sides[2]
+
+
 def get_triangle_type(sides_lengths):
     sides = get_triangle_sides(sides_lengths)
 
@@ -39,7 +44,10 @@ def get_triangle_type(sides_lengths):
         print(NOT_TRIANGLE_MESSAGE)
         sys.exit(OK_EXIT_CODE)
 
-    print(sides)
+    if is_equilateral(sides):
+        print(EQUILATERAL_TRIANLGE_MESSAGE)
+
+    print('OK')
 
 if __name__ == '__main__':
     triangle_type = get_triangle_type(sys.argv[1:])
