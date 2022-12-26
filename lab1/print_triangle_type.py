@@ -3,6 +3,8 @@ import sys
 ERROR_MESSAGE = 'неизвестная ошибка'
 ERROR_EXIT_CODE = 1
 
+NOT_TRIANGLE_MESSAGE = 'не треугольник'
+
 def get_triangle_sides(sides_lengths):
     if len(sides_lengths) != 3:
         print(ERROR_MESSAGE)
@@ -14,8 +16,18 @@ def get_triangle_sides(sides_lengths):
         sys.exit(ERROR_EXIT_CODE)
     return sides
 
+def is_sides_valid(sides):
+    for side in sides:
+        if side <= 0:
+            return False
+    return True
+
 def get_triangle_type(sides_lengths):
     sides = get_triangle_sides(sides_lengths)
+
+    if not is_sides_valid(sides):
+        print(ERROR_MESSAGE)
+        sys.exit(ERROR_EXIT_CODE)
 
     print(sides)
 
