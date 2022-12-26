@@ -48,7 +48,6 @@ def run_tests(program_to_test, tests, output_file):
         if result_message == expected_outcome:
             print(TEST_SUCCESS_MESSAGE, file=f)
         else :
-            print(args, expected_outcome)
             print(TEST_FAIL_MESSAGE, file=f)
 
     f.close()
