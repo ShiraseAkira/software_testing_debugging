@@ -5,15 +5,15 @@ import sys
 
 from urllib.parse import urlparse
 from bs4 import BeautifulSoup
-# from datetime import datetime
+from datetime import datetime
+
 
 VALID_URLS_REPORT_FILE = 'valid.txt'
 INVALID_URLS_REPORT_FILE = 'invalid.txt'
 FILE_WRITE_ERROR_MESSAGE = 'Could not write to file:'
 ERROR_EXIT_CODE = 1
+DATETIME_FORMAT = '%d/%m/%Y, %H:%M'
 
-# DATETIME_FORMAT = '%d/%m/%Y, %H:%M'
-# datetime.now().strftime(DATETIME_FORMAT)
 
 def get_args():
     parser = argparse.ArgumentParser()
@@ -94,8 +94,16 @@ def crawl_from_url(args):
                 continue
             urls_queue.put(link)
 
-    print(visited_urls)
+    time_now = datetime.now().strftime(DATETIME_FORMAT)
+
+    # print(visited_urls)
+    print(file=fv)
+    print(f'Links number {valid_url_counter}', file=fv)
+    print(time_now, file=fv)
     fv.close()
+    print(file=fi)
+    print(f'Links number {invalid_url_counter}', file=fi)
+    print(time_now, file=fi)
     fi.close()
 
 if __name__ == '__main__':
