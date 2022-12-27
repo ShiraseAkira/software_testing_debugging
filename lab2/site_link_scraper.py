@@ -20,7 +20,7 @@ def get_args():
 
     parser.add_argument('url', help='url to test availability of links')
     parser.add_argument('-val', help='file for logging VALID urls', metavar='filename', default=VALID_URLS_REPORT_FILE)
-    parser.add_argument('-inval', help='file for logging INVALID urls', metavar='filename', default=VALID_URLS_REPORT_FILE)
+    parser.add_argument('-inval', help='file for logging INVALID urls', metavar='filename', default=INVALID_URLS_REPORT_FILE)
 
     return parser.parse_args()
 
