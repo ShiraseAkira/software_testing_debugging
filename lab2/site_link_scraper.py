@@ -1,6 +1,7 @@
 import argparse
 import requests
 import queue
+import sys
 
 from urllib.parse import urlparse
 from bs4 import BeautifulSoup
@@ -8,6 +9,8 @@ from bs4 import BeautifulSoup
 
 VALID_URLS_REPORT_FILE = 'valid.txt'
 INVALID_URLS_REPORT_FILE = 'invalid.txt'
+FILE_WRITE_ERROR_MESSAGE = 'Could not write to file:'
+ERROR_EXIT_CODE = 1
 
 # DATETIME_FORMAT = '%d/%m/%Y, %H:%M'
 # datetime.now().strftime(DATETIME_FORMAT)
@@ -49,12 +52,21 @@ def get_available_links(response_text, base_url):
 
     return links
 
-def log_link():
-    pass
-
 def crawl_from_url(args):
     valid_url_counter = 0
     invalid_url_counter = 0
+    
+    try:
+        fv = open(args.val, 'w', encoding='utf-8')
+    except OSError:
+        print(FILE_WRITE_ERROR_MESSAGE, args.val)
+        sys.exit(ERROR_EXIT_CODE)
+
+    try:
+        fi = open(args.inval, 'w', encoding='utf-8')
+    except OSError:
+        print(FILE_WRITE_ERROR_MESSAGE, args.inval)
+        sys.exit(ERROR_EXIT_CODE)
 
     urls_queue = queue.Queue()
     urls_queue.put(args.url)
@@ -70,10 +82,10 @@ def crawl_from_url(args):
         r = requests.get(link)
 
         if not r.ok:
-            #TODO logging
+            print(link, r.status_code, file=fi)
             invalid_url_counter += 1
-            pass
-        #TODO logging
+            continue
+        print(link, r.status_code, file=fv)
         valid_url_counter += 1
 
         links = get_available_links(r.text, args.url)
@@ -82,7 +94,9 @@ def crawl_from_url(args):
                 continue
             urls_queue.put(link)
 
-        print(visited_urls)
+    print(visited_urls)
+    fv.close()
+    fi.close()
 
 if __name__ == '__main__':
     args = get_args()
