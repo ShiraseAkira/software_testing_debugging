@@ -25,7 +25,7 @@ def get_args():
     return parser.parse_args()
 
 def is_href_available(href):
-    if href == None:
+    if href == None or href =='':
         return False
     
     if href[-1] == '#':
@@ -46,9 +46,10 @@ def get_available_links(response_text, base_url):
     for link in soup.find_all('a'):
         href = link.get('href')
         if is_href_available(href):
-            if parsed_base_url.netloc in href:
-                links.append(href)
             links.append(parsed_base_url._replace(path=href).geturl())
+
+        if href and (parsed_base_url.netloc in href):
+            links.append(href)
 
     return links
 
