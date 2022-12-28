@@ -43,6 +43,8 @@ describe('Tic-Tac-Toe', () => {
 
       game = new TicTacToe();
       expect(!!game.isTurnValid(1)).to.equal(true)
+      expect(!!game.isTurnValid(5)).to.equal(true)
+      expect(!!game.isTurnValid(511)).to.equal(true)
       game.nextTurn(0, 0)
       expect(!!game.isTurnValid(1)).to.equal(false)
       expect(!!game.isTurnValid(0)).to.equal(false)
@@ -59,6 +61,13 @@ describe('Tic-Tac-Toe', () => {
       expect(game.turnCount).to.equal(0)
       expect(game.fieldState['x']).to.equal(0)
       expect(game.fieldState['empty']).to.equal(511)
+      game.nextTurn(0, 0)
+
+      expect(game.getCurrentPlayerSymbol()).to.equal('o')
+      expect(game.turnCount).to.equal(1)
+      expect(game.fieldState['x']).to.equal(1)
+      expect(game.fieldState['empty']).to.equal(510)
+
       game.nextTurn(0, 0)
       expect(game.getCurrentPlayerSymbol()).to.equal('o')
       expect(game.turnCount).to.equal(1)
@@ -109,6 +118,17 @@ describe('Tic-Tac-Toe', () => {
 
       game.nextTurn(2, 1);
       expect(game.isFinished()).to.equal(true);
+
+      game = new TicTacToe();
+      expect(game.isFinished()).to.equal(false);
+      game.nextTurn(2, 2)
+      game.nextTurn(1, 1)
+      game.nextTurn(0, 2)
+      game.nextTurn(0, 0)
+      game.nextTurn(0, 1)
+      game.nextTurn(2, 1)
+      game.nextTurn(1, 2)
+      expect(game.isFinished()).to.equal(true)
     });
   });
   describe('#getWinner', () => {
@@ -178,28 +198,14 @@ describe('Tic-Tac-Toe', () => {
       game = new TicTacToe();
       game.nextTurn(1, 0);
       expect(game.isDraw()).to.equal(false);
-
       game.nextTurn(2, 2);
-      expect(game.isDraw()).to.equal(false);
-
       game.nextTurn(0, 2);
-      expect(game.isDraw()).to.equal(false);
-
       game.nextTurn(1, 1);
-      expect(game.isDraw()).to.equal(false);
-
       game.nextTurn(1, 2);
-      expect(game.isDraw()).to.equal(false);
-
       game.nextTurn(2, 0);
-      expect(game.isDraw()).to.equal(false);
-
       game.nextTurn(0, 0);
-      expect(game.isDraw()).to.equal(false);
-
       game.nextTurn(0, 1);
       expect(game.isDraw()).to.equal(false);
-
       game.nextTurn(2, 1);
       expect(game.isDraw()).to.equal(true);
     });
