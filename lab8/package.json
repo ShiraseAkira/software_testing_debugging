@@ -1,0 +1,16 @@
+{
+  "name": "lab8",
+  "version": "1.0.0",
+  "description": "mountebank mock",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mountebank": "^2.8.1",
+    "node-fetch": "^3.3.0"
+  }
+}
